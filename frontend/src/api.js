@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://full-stack-todo-zihq.onrender.com/";
+const API_URL = "https://full-stack-todo-zihq.onrender.com/api";
 
 const api = axios.create({
   baseURL: API_URL,
