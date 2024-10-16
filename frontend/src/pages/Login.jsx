@@ -22,7 +22,6 @@ function Login() {
         password: form.password,
       });
       localStorage.setItem("token", response.data.token);
-      alert("Login successful!");
       navigate("/todos");
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
