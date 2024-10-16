@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
 // Replace '*' with your frontend's origin in production
 app.use(
   cors({
-    origin: "http://localhost:5173", // Vite's default port
+    origin: "https://full-stack-todo-inky.vercel.app/", // Vite's default port
     optionsSuccessStatus: 200,
   })
 );
