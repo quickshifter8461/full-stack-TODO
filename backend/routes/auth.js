@@ -1,26 +1,24 @@
-// backend/routes/auth.js
-
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { body, validationResult } = require('express-validator');
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
+const { body, validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 
-const User = require('../models/User');
+const User = require("../models/User");
 
 dotenv.config();
 
-// @route   POST /api/auth/register
-// @desc    Register a new user
-// @access  Public
-router.post('/register',
+router.post(
+  "/register",
   [
-    body('username', 'Username is required and should be 3-30 characters')
+    body("username", "Username is required and should be 3-30 characters")
       .not()
       .isEmpty()
       .isLength({ min: 3, max: 30 }),
-    body('email', 'Please include a valid email').isEmail(),
-    body('password', 'Password must be at least 6 characters').isLength({ min: 6 }),
+    body("email", "Please include a valid email").isEmail(),
+    body("password", "Password must be at least 6 characters").isLength({
+      min: 6,
+    }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -31,10 +29,9 @@ router.post('/register',
     const { username, email, password } = req.body;
 
     try {
-      // Check if user exists
       let user = await User.findOne({ email });
       if (user) {
-        return res.status(400).json({ message: 'User already exists' });
+        return res.status(400).json({ message: "User already exists" });
       }
 
       user = new User({
@@ -45,16 +42,14 @@ router.post('/register',
 
       await user.save();
 
-      // Create payload
       const payload = {
         id: user.id,
       };
 
-      // Sign token
       jwt.sign(
         payload,
         process.env.JWT_SECRET,
-        { expiresIn: '1h' },
+        { expiresIn: "1h" },
         (err, token) => {
           if (err) throw err;
           res.status(201).json({ token });
@@ -62,18 +57,16 @@ router.post('/register',
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server error');
+      res.status(500).send("Server error");
     }
   }
 );
 
-// @route   POST /api/auth/login
-// @desc    Authenticate user & get token
-// @access  Public
-router.post('/login',
+router.post(
+  "/login",
   [
-    body('email', 'Please include a valid email').isEmail(),
-    body('password', 'Password is required').exists(),
+    body("email", "Please include a valid email").isEmail(),
+    body("password", "Password is required").exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -84,27 +77,24 @@ router.post('/login',
     const { email, password } = req.body;
 
     try {
-      // Check for user
       let user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ message: 'Invalid Credentials' });
+        return res.status(400).json({ message: "Invalid Credentials" });
       }
 
       const isMatch = await user.comparePassword(password);
       if (!isMatch) {
-        return res.status(400).json({ message: 'Invalid Credentials' });
+        return res.status(400).json({ message: "Invalid Credentials" });
       }
 
-      // Create payload
       const payload = {
         id: user.id,
       };
 
-      // Sign token
       jwt.sign(
         payload,
         process.env.JWT_SECRET,
-        { expiresIn: '1h' },
+        { expiresIn: "1h" },
         (err, token) => {
           if (err) throw err;
           res.json({ token });
@@ -112,7 +102,7 @@ router.post('/login',
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server error');
+      res.status(500).send("Server error");
     }
   }
 );

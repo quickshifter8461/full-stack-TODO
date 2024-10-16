@@ -1,39 +1,28 @@
-// backend/server.js
-
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
-// Load environment variables
 dotenv.config();
 
-// Import Routes
 const authRoutes = require("./routes/auth");
 const todoRoutes = require("./routes/todos");
 
-// Initialize Express app
 const app = express();
 
-// Middleware
-app.use(express.json()); // Parse JSON bodies
-app.use(cors()); // Enable CORS
+app.use(express.json());
+app.use(cors());
 
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/todos", todoRoutes);
 
-// Root Endpoint
 app.get("/", (req, res) => {
   res.send("Welcome to the ToDo API");
 });
 
-// backend/server.js snippet
-
-// Replace '*' with your frontend's origin in production
 app.use(
   cors({
-    origin: "https://full-stack-todo-inky.vercel.app/", // Vite's default port
+    origin: "https://full-stack-todo-inky.vercel.app/",
     optionsSuccessStatus: 200,
   })
 );
@@ -41,13 +30,11 @@ app.use(
 const helmet = require("helmet");
 app.use(helmet());
 
-// Connect to MongoDB and Start Server
 const PORT = process.env.PORT || 5000;
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    // useFindAndModify: false, // Deprecated in Mongoose 6
   })
   .then(() => {
     console.log("Connected to MongoDB");
