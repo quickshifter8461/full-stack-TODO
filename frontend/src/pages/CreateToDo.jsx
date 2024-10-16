@@ -1,15 +1,13 @@
-// frontend/src/pages/CreateToDo.jsx
-
-import React, { useState } from 'react';
-import api from '../api';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState } from "react";
+import api from "../api";
+import { useNavigate, Link } from "react-router-dom";
 
 function CreateToDo() {
   const [form, setForm] = useState({
-    title: '',
-    description: '',
+    title: "",
+    description: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -19,18 +17,18 @@ function CreateToDo() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/todos', {
+      const response = await api.post("/todos", {
         title: form.title,
         description: form.description,
       });
-      setForm({ title: '', description: '' });
-      alert('ToDo created successfully');
-      navigate('/todos');
+      setForm({ title: "", description: "" });
+      alert("ToDo created successfully");
+      navigate("/todos");
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
-        setError(err.response.data.errors.map(e => e.msg).join(', '));
+        setError(err.response.data.errors.map((e) => e.msg).join(", "));
       } else {
-        setError('Failed to create ToDo');
+        setError("Failed to create ToDo");
       }
     }
   };
@@ -60,8 +58,12 @@ function CreateToDo() {
             onChange={handleChange}
           ></textarea>
         </div>
-        <button type="submit" className="btn btn-success">Create</button>
-        <Link to="/todos" className="btn btn-secondary ms-2">Cancel</Link>
+        <button type="submit" className="btn btn-success">
+          Create
+        </button>
+        <Link to="/todos" className="btn btn-secondary ms-2">
+          Cancel
+        </Link>
       </form>
     </div>
   );

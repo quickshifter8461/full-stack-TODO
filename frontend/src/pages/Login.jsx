@@ -1,15 +1,13 @@
-// frontend/src/pages/Login.jsx
-
-import React, { useState } from 'react';
-import api from '../api';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState } from "react";
+import api from "../api";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
   const [form, setForm] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -19,18 +17,18 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/auth/login', {
+      const response = await api.post("/auth/login", {
         email: form.email,
         password: form.password,
       });
-      localStorage.setItem('token', response.data.token);
-      alert('Login successful!');
-      navigate('/todos');
+      localStorage.setItem("token", response.data.token);
+      alert("Login successful!");
+      navigate("/todos");
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {
-        setError('Login failed');
+        setError("Login failed");
       }
     }
   };
@@ -62,7 +60,9 @@ function Login() {
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary">Login</button>
+        <button type="submit" className="btn btn-primary">
+          Login
+        </button>
       </form>
       <p className="mt-3">
         Don't have an account? <Link to="/register">Register here</Link>.

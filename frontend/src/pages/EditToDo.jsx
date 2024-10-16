@@ -1,28 +1,25 @@
-// frontend/src/pages/EditToDo.jsx
-
-import React, { useState, useEffect } from 'react';
-import api from '../api';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import api from "../api";
+import { useNavigate, useParams, Link } from "react-router-dom";
 
 function EditToDo() {
   const [form, setForm] = useState({
-    title: '',
-    description: '',
+    title: "",
+    description: "",
     completed: false,
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
     fetchToDo();
-    // eslint-disable-next-line
   }, []);
 
   const fetchToDo = async () => {
     try {
-      const response = await api.get('/todos');
-      const todo = response.data.find(item => item._id === id);
+      const response = await api.get("/todos");
+      const todo = response.data.find((item) => item._id === id);
       if (todo) {
         setForm({
           title: todo.title,
@@ -30,10 +27,10 @@ function EditToDo() {
           completed: todo.completed,
         });
       } else {
-        setError('ToDo not found');
+        setError("ToDo not found");
       }
     } catch (err) {
-      setError('Failed to fetch ToDo');
+      setError("Failed to fetch ToDo");
     }
   };
 
@@ -41,7 +38,7 @@ function EditToDo() {
     const { name, value, type, checked } = e.target;
     setForm({
       ...form,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -53,13 +50,13 @@ function EditToDo() {
         description: form.description,
         completed: form.completed,
       });
-      alert('ToDo updated successfully');
-      navigate('/todos');
+      alert("ToDo updated successfully");
+      navigate("/todos");
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
-        setError(err.response.data.errors.map(e => e.msg).join(', '));
+        setError(err.response.data.errors.map((e) => e.msg).join(", "));
       } else {
-        setError('Failed to update ToDo');
+        setError("Failed to update ToDo");
       }
     }
   };
@@ -99,8 +96,12 @@ function EditToDo() {
           />
           <label className="form-check-label">Completed</label>
         </div>
-        <button type="submit" className="btn btn-primary">Update</button>
-        <Link to="/todos" className="btn btn-secondary ms-2">Cancel</Link>
+        <button type="submit" className="btn btn-primary">
+          Update
+        </button>
+        <Link to="/todos" className="btn btn-secondary ms-2">
+          Cancel
+        </Link>
       </form>
     </div>
   );

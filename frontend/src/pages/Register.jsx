@@ -1,17 +1,15 @@
-// frontend/src/pages/Register.jsx
-
-import React, { useState } from 'react';
-import api from '../api';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState } from "react";
+import api from "../api";
+import { useNavigate, Link } from "react-router-dom";
 
 function Register() {
   const [form, setForm] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -21,23 +19,23 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.password !== form.confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
     try {
-      const response = await api.post('/auth/register', {
+      const response = await api.post("/auth/register", {
         username: form.username,
         email: form.email,
         password: form.password,
       });
-      localStorage.setItem('token', response.data.token);
-      alert('Registration successful!');
-      navigate('/todos');
+      localStorage.setItem("token", response.data.token);
+      alert("Registration successful!");
+      navigate("/todos");
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {
-        setError('Registration failed');
+        setError("Registration failed");
       }
     }
   };
@@ -91,7 +89,9 @@ function Register() {
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary">Register</button>
+        <button type="submit" className="btn btn-primary">
+          Register
+        </button>
       </form>
       <p className="mt-3">
         Already have an account? <Link to="/login">Login here</Link>.
