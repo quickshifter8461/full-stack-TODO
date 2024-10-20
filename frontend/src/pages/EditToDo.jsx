@@ -103,10 +103,10 @@ function EditToDo() {
               {form.completed ? "Mark as Pending" : "Mark as Completed"}
             </button>
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary fs-4">
             Update
           </button>
-          <Link to="/todos" className="btn btn-secondary ms-2">
+          <Link to="/todos" className="btn btn-danger ms-2 fs-4">
             Cancel
           </Link>
         </form>
