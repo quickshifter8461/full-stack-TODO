@@ -1,21 +1,25 @@
 import React, { useState } from "react";
 import api from "../api";
 import { useNavigate, Link } from "react-router-dom";
+import Spinner from "./spinner";
 
 function Login() {
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+  
   const [error, setError] = useState("");
+  const [loading, setLoading]= useState(false)
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await api.post("/auth/login", {
         email: form.email,
@@ -29,10 +33,12 @@ function Login() {
       } else {
         setError("Login failed");
       }
+    }finally{
+      setLoading(false)
     }
   };
 
-  return (
+  return loading? <Spinner/> : (
     <div className="center d-flex align-items-center justify-content-center">
     <div className="box position-relative p-4 text-center bg-body border rounded-5">
       <h2 className=" mb-3 fw-normal">Login</h2>

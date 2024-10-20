@@ -57,7 +57,6 @@ function EditToDo() {
         description: form.description,
         completed: form.completed,
       });
-      alert("ToDo updated successfully");
       navigate("/todos");
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {

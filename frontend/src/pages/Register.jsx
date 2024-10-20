@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import api from "../api";
 import { useNavigate, Link } from "react-router-dom";
 
+import Spinner from "./spinner";
+
 function Register() {
   const [form, setForm] = useState({
     username: "",
@@ -10,6 +12,7 @@ function Register() {
     confirmPassword: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading]= useState(false)
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -18,6 +21,7 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     if (form.password !== form.confirmPassword) {
       setError("Passwords do not match");
       return;
@@ -29,16 +33,17 @@ function Register() {
         password: form.password,
       });
       localStorage.setItem("token", response.data.token);
-      alert("Registration successful!");
       navigate("/todos");
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } 
+    }finally{
+      setLoading(false)
     }
   };
 
-  return (
+  return loading? <Spinner/> : (
     <div className="center d-flex align-items-center justify-content-center">
       <div className="box position-relative p-4 text-center bg-body border rounded-5">
       <h2 className=" mb-3 fw-normal" >Register</h2>

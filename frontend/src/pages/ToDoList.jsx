@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import api from "../api";
 import { Link, useNavigate } from "react-router-dom";
+import Spinner from "./spinner";
 
 function ToDoList() {
   const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -23,17 +25,22 @@ function ToDoList() {
       } else {
         setError("Failed to fetch ToDos");
       }
+    }finally{
+      setLoading(false)
     }
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this ToDo?")) return;
+    setLoading(true)
     try {
       await api.delete(`/todos/${id}`);
       setTodos(todos.filter((todo) => todo._id !== id));
-      alert("ToDo deleted successfully");
+      
     } catch (err) {
       setError("Failed to delete ToDo");
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -42,7 +49,7 @@ function ToDoList() {
     navigate("/login");
   };
 
-  return (
+  return loading?<Spinner/>:(
     <div className="m-5">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>My Todos</h2>
