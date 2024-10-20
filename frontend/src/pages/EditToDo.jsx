@@ -35,17 +35,24 @@ function EditToDo() {
   };
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setForm({
       ...form,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     });
+  };
+
+  const toggleCompleted = () => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      completed: !prevForm.completed,  // Toggle between true and false
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.put(`/todos/${id}`, {
+      await api.put(`/todos/${id}`, {
         title: form.title,
         description: form.description,
         completed: form.completed,
@@ -62,47 +69,48 @@ function EditToDo() {
   };
 
   return (
-    <div className="container mt-5">
-      <h2>Edit ToDo</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Title</label>
-          <input
-            type="text"
-            className="form-control"
-            name="title"
-            value={form.title}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Description</label>
-          <textarea
-            className="form-control"
-            name="description"
-            value={form.description}
-            onChange={handleChange}
-          ></textarea>
-        </div>
-        <div className="mb-3 form-check">
-          <input
-            type="checkbox"
-            className="form-check-input"
-            name="completed"
-            checked={form.completed}
-            onChange={handleChange}
-          />
-          <label className="form-check-label">Completed</label>
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Update
-        </button>
-        <Link to="/todos" className="btn btn-secondary ms-2">
-          Cancel
-        </Link>
-      </form>
+    <div className="center d-flex align-items-center justify-content-center">
+      <div className="box position-relative p-4 text-center bg-body border rounded-5">
+        <h2>Edit ToDo</h2>
+        {error && <div className="alert alert-danger">{error}</div>}
+        <form onSubmit={handleSubmit}>
+          <div className="form-floating mb-3">
+            <input
+              type="text"
+              className="form-control"
+              name="title"
+              value={form.title}
+              onChange={handleChange}
+              required
+            />
+            <label className="form-label">Title</label>
+          </div>
+          <div className="form-floating mb-3">
+            <textarea
+              className="form-control"
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+            ></textarea>
+            <label className="form-label">Description</label>
+          </div>
+          <div className="mb-3">
+            <button
+              type="button"
+              className={`w-100 fs-4 btn ${form.completed ? 'btn-warning' : 'btn-success'}` }
+              onClick={toggleCompleted}
+            >
+              {form.completed ? "Mark as Pending" : "Mark as Completed"}
+            </button>
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Update
+          </button>
+          <Link to="/todos" className="btn btn-secondary ms-2">
+            Cancel
+          </Link>
+        </form>
+      </div>
     </div>
   );
 }

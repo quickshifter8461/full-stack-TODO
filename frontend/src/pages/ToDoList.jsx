@@ -43,44 +43,47 @@ function ToDoList() {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="m-5">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>My ToDos</h2>
-        <button className="btn btn-secondary" onClick={handleLogout}>
+        <h2>My Todos</h2>
+        <button className="btn btn-danger fs-4" onClick={handleLogout}>
           Logout
         </button>
       </div>
-      <Link to="/create" className="btn btn-success mb-3">
-        Create New ToDo
+      <Link to="/create" className="btn btn-success fs-4 mb-3">
+        Create New Todo
       </Link>
       {error && <div className="alert alert-danger">{error}</div>}
       {todos.length > 0 ? (
-        <table className="table table-striped">
+        <table className="table text-center">
           <thead>
             <tr>
               <th>Title</th>
               <th>Description</th>
-              <th>Completed</th>
-              <th>Actions</th>
+              <th>Status</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
             {todos.map((todo) => (
               <tr key={todo._id}>
-                <td>{todo.title}</td>
-                <td>{todo.description}</td>
-                <td>
-                  <input type="checkbox" checked={todo.completed} readOnly />
+                <td className="fs-4" >{todo.title.charAt(0).toUpperCase()+todo.title.slice(1)}</td>
+                <td className="fs-4" >{todo.description.charAt(0).toUpperCase()+todo.description.slice(1)}</td>
+                <td className="fs-4" >
+                  {todo.completed?"Completed":"Pending"}
                 </td>
                 <td>
                   <Link
                     to={`/edit/${todo._id}`}
-                    className="btn btn-primary btn-sm me-2"
+                    className="btn btn-primary btn-sm w-75 mb-2 fs-4"
                   >
                     Edit
                   </Link>
+                  </td>
+                  <td>
                   <button
-                    className="btn btn-danger btn-sm"
+                    className="btn btn-danger btn-sm w-75 fs-4"
                     onClick={() => handleDelete(todo._id)}
                   >
                     Delete

@@ -39,12 +39,12 @@ function Register() {
   };
 
   return (
-    <div className="container mt-5">
-      <h2>Register</h2>
+    <div className="center d-flex align-items-center justify-content-center">
+      <div className="box position-relative p-4 text-center bg-body border rounded-5">
+      <h2 className=" mb-3 fw-normal" >Register</h2>
       {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Username</label>
+        <div className="form-floating mb-3">
           <input
             type="text"
             className="form-control"
@@ -53,9 +53,9 @@ function Register() {
             onChange={handleChange}
             required
           />
+          <label className="form-label">Username</label>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Email</label>
+        <div className="form-floating mb-3">
           <input
             type="email"
             className="form-control"
@@ -64,9 +64,9 @@ function Register() {
             onChange={handleChange}
             required
           />
+          <label className="form-label">Email</label>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Password</label>
+        <div className="form-floating mb-3">
           <input
             type="password"
             className="form-control"
@@ -75,9 +75,9 @@ function Register() {
             onChange={handleChange}
             required
           />
+          <label className="form-label">Password</label>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Confirm Password</label>
+        <div className="form-floating mb-3">
           <input
             type="password"
             className="form-control"
@@ -86,14 +86,16 @@ function Register() {
             onChange={handleChange}
             required
           />
+          <label className="form-label">Confirm Password</label>
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary w-100 fs-4">
           Register
         </button>
       </form>
       <p className="mt-3">
-        Already have an account? <Link to="/login">Login here</Link>.
+        Already have an account? <Link className="ms-3 link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" to="/login">Login here</Link>.
       </p>
+    </div>
     </div>
   );
 }
