@@ -25,8 +25,8 @@ function Login() {
         email: form.email,
         password: form.password,
       });
-      localStorage.setItem("token", response.data.token);
       navigate("/todos");
+      localStorage.setItem("token", response.data.token);
     } catch (err) {
         setError("Login failed");
     }finally{
