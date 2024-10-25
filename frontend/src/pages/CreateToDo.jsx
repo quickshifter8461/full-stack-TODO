@@ -27,11 +27,7 @@ function CreateToDo() {
       setForm({ title: "", description: "" });
       navigate("/todos");
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.errors) {
-        setError(err.response.data.errors.map((e) => e.msg).join(", "));
-      } else {
         setError("Failed to create ToDo");
-      }
     }finally{
       setLoading(false)
     }
